@@ -1,0 +1,288 @@
+{
+    "AUTHOR_UID": "61581197276223",
+    "AUTHOR_NAME": "jahidul Islam sagor",
+    "notice": "dont cng author name and author uid. otherwise your bot lol",
+    "language": "en",
+    "DeveloperMode": false,
+    "autoCreateDB": true,
+    "BOTNAME": "—𝐒𝐀𝐆𝐎𝐑-:)🩶🌷",
+    "EMAIL": "",
+    "PASSWORD": "",
+    "OTPKEY": "",
+    "PREFIX": ".",
+    "ADMINBOT": [
+        "61581197276223",
+        "61576500657447"
+    ],
+    "SUPERADMIN": [
+        "61581197276223",
+        "61576500657447"
+    ],
+    "PREMIUM": [
+        "61581197276223"
+    ],
+    "DEV": [
+        "61581197276223"
+    ],
+    "VIP": [
+        "61581197276223"
+    ],
+    "adminOnly": false,
+    "superadminOnly": false,
+    "adminPaOnly": false,
+    "allowInbox": true,
+    "notiGroup": true,
+    "NOTIFICATION": true,
+    "autoClean": true,
+    "usePrefix": {
+        "enable": false
+    },
+    "adminPrefix": {
+        "enable": true,
+        "prefix": "!",
+        "noPrefix": true,
+        "allowedRoles": [
+            "ADMINBOT",
+            "SUPERADMIN",
+            "DEV"
+        ]
+    },
+    "commandDisabled": [],
+    "eventDisabled": [],
+    "database": {
+        "type": "sqlite",
+        "uriMongodb": "",
+        "autoSyncWhenStart": true,
+        "autoRefreshThreadInfoFirstTime": true,
+        "storage": "data.sqlite"
+    },
+    "APPSTATEPATH": "cookie.txt",
+    "reactBy": {
+        "delete": [
+            "😠",
+            "😡",
+            "🤬",
+            "😾"
+        ],
+        "kick": [
+            "🦵",
+            "🖕",
+            "🦿",
+            "🦶"
+        ]
+    },
+    "whiteListMode": {
+        "enable": false,
+        "whiteListIds": [
+            "61581197276223"
+        ]
+    },
+    "whiteListModeThread": {
+        "enable": false,
+        "whiteListThreadIds": [
+            ""
+        ]
+    },
+    "timeZone": "Asia/Dhaka",
+    "dashBoard": {
+        "enable": true,
+        "expireVerifyCode": 300000,
+        "port": 5000
+    },
+    "serverUptime": {
+        "enable": false,
+        "port": 3002,
+        "socket": {
+            "enable": true,
+            "channelName": "uptime",
+            "verifyToken": "8126831f37f9cb8d6ba35489bac1ac619b114178e9617613ae8277ed4328fa3f"
+        }
+    },
+    "spamProtection": {
+        "commandThreshold": 8,
+        "timeWindow": 10,
+        "banDuration": 24
+    },
+    "autoRestart": {
+        "time": "03:00"
+    },
+    "autoUptime": {
+        "enable": true,
+        "timeInterval": 180,
+        "url": ""
+    },
+    "autoLoadScripts": {
+        "enable": false,
+        "url": "",
+        "ignoreCmds": "",
+        "ignoreEvents": ""
+    },
+    "pingMonitor": {
+        "enable": true,
+        "intervalMinutes": 5
+    },
+    "typingIndicator": {
+        "enable": true,
+        "duration": 2000
+    },
+    "autoRefreshFbstate": true,
+    "autoReloginWhenChangeAccount": false,
+    "autoRestartWhenListenMqttError": true,
+    "restartListenMqtt": {
+        "enable": true,
+        "timeRestart": 3600000,
+        "delayAfterStopListening": 2000,
+        "logNoti": true
+    },
+    "telegramNotify": {
+        "enable": true,
+        "botToken": "8784954386:AAG-YHPVX1Wvw77Rnm_dxyobXEkLHvK36LE",
+        "chatId": "7396577693"
+    },
+    "notiWhenListenMqttError": {
+        "telegram": {
+            "enable": true,
+            "botToken": "8784954386:AAG-YHPVX1Wvw77Rnm_dxyobXEkLHvK36LE",
+            "chatId": "7396577693"
+        },
+        "discordHook": {
+            "enable": false,
+            "webhookUrl": ""
+        }
+    },
+    "botAccount": {
+        "email": "",
+        "password": "",
+        "twoFactorCode": "",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6.2 Safari/605.1.15",
+        "autoUseWhenEmpty": true
+    },
+    "twoIdMode": {
+        "enable": false,
+        "secondaryAccount": {
+            "email": "",
+            "password": "",
+            "twoFactorCode": "",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6.2 Safari/605.1.15"
+        },
+        "autoSwitchOnError": true
+    },
+    "threadApproval": {
+        "enable": false,
+        "adminNotificationThreads": [],
+        "autoApproveExisting": true,
+        "sendNotifications": true,
+        "sendThreadMessage": true,
+        "autoApprovedThreads": []
+    },
+    "botLogging": {
+        "enable": true,
+        "sendToThreads": true,
+        "logThreadIds": [],
+        "sendToAdmins": false,
+        "silentOnDisabledThreads": true,
+        "logBotAdded": true,
+        "logBotKicked": true
+    },
+    "groupNoti": {
+        "enable": true,
+        "threadIds": []
+    },
+    "bioUpdate": {
+        "enable": false,
+        "bioText": "",
+        "updateOnce": true
+    },
+    "botStartupNotification": {
+        "enable": false,
+        "sendToThreads": {
+            "enable": true,
+            "threadIds": []
+        },
+        "sendToAdmin": {
+            "enable": false,
+            "adminId": ""
+        },
+        "message": "Bot is now online...!!"
+    },
+    "hideNotiMessage": {
+        "commandNotFound": false,
+        "adminOnly": false,
+        "threadBanned": false,
+        "userBanned": false,
+        "needRoleToUseCmd": false,
+        "needRoleToUseCmdOnReply": false,
+        "needRoleToUseCmdOnReaction": false
+    },
+    "logEvents": {
+        "disableAll": false,
+        "message": true,
+        "message_reaction": true,
+        "message_unsend": true,
+        "message_reply": true,
+        "event": true,
+        "read_receipt": false,
+        "typ": false,
+        "presence": false
+    },
+    "autosend": {
+        "enabled": true,
+        "checkIntervalMinutes": 60,
+        "allowInbox": false,
+        "allowGroup": true,
+        "maxMessagesPerDay": 5
+    },
+    "FCAOption": {
+        "forceLogin": false,
+        "listenEvents": true,
+        "pauseLog": true,
+        "logLevel": "silent",
+        "selfListen": false,
+        "autoMarkRead": false,
+        "autoMarkDelivery": true,
+        "online": true,
+        "emitReady": true,
+        "autoReconnect": true,
+        "userAgent": "Mozilla/5.0 (Linux; Android 12; SM-A515F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
+    },
+    "version": "5.0.0",
+    "log": {
+        "enable": true
+    },
+    "menu": {
+        "autoUnsend": true,
+        "delayUnsend": 55
+    },
+    "help": {
+        "autoUnsend": true,
+        "delayUnsend": 120
+    },
+    "work": {
+        "cooldownTime": 1200000
+    },
+    "xidach": {
+        "maxPlayers": 5,
+        "normalWinBonus": 1,
+        "superWinBonus": 2,
+        "epicWinBonus": 4
+    },
+    "loto": {
+        "maxPlayers": 10,
+        "getDelay": 8
+    },
+    "god": {
+        "enable": true
+    },
+    "caesar": {
+        "caeserPassword": "266303"
+    },
+    "adminUpdate": {
+        "sendNoti": true
+    },
+    "autoCleanDelay": 30000,
+    "updateNotification": {
+        "enable": false,
+        "autoApply": false,
+        "checkIntervalMinutes": 30
+    }
+}

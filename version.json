@@ -1,0 +1,11 @@
+{
+  "version": "5.0.0",
+  "name": "SAGOR Bot",
+  "releasedAt": "2026-05-16",
+  "forceUpdate": false,
+  "changelog": [
+    "Auto-update system stabilized",
+    "Version mismatch fixed",
+    "handleReply crash bugs fixed"
+  ]
+}
