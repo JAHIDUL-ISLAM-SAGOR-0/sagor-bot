@@ -1,4 +1,4 @@
-const AUTHORIZED_REPO = "JAHIDUL-ISLAM-SAGOR-0/sagor-bot";
+const AUTHORIZED_REPO = "SAGOR-OFFICIAL-09/PROJECT-5";
 
 function verifyRepo() {
   try {
