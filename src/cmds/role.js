@@ -84,11 +84,11 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
       return api.sendMessage(
         box("🎭 ROLE MANAGER", [
           "│",
-          "│  role list                  → সব role দেখো",
-          "│  role check @tag/reply/uid  → কারো role দেখো",
+          "│  role list                  → Show all roles",
+          "│  role check @tag/reply/uid  → Check someone's role",
           "│",
           "│  ── ADD ──",
-          "│  role add all @tag/reply/uid → সব role দাও",
+          "│  role add all @tag/reply/uid → Add all roles",
           "│  role add 2 @tag/reply/uid   → 🔧 Bot Admin",
           "│  role add 3 @tag/reply/uid   → ⚡ Superadmin",
           "│  role add 4 @tag/reply/uid   → 💎 Premium",
@@ -96,12 +96,12 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
           "│  role add 6 @tag/reply/uid   → 🌟 VIP",
           "│",
           "│  ── REMOVE ──",
-          "│  role remove all @tag/reply/uid → সব role সরাও",
-          "│  role remove 2 @tag/reply/uid   → শুধু Bot Admin",
-          "│  role remove 3 @tag/reply/uid   → শুধু Superadmin",
-          "│  role remove 4 @tag/reply/uid   → শুধু Premium",
-          "│  role remove 5 @tag/reply/uid   → শুধু Dev",
-          "│  role remove 6 @tag/reply/uid   → শুধু VIP",
+          "│  role remove all @tag/reply/uid → Remove all roles",
+          "│  role remove 2 @tag/reply/uid   → Only Bot Admin",
+          "│  role remove 3 @tag/reply/uid   → Only Superadmin",
+          "│  role remove 4 @tag/reply/uid   → Only Premium",
+          "│  role remove 5 @tag/reply/uid   → Only Dev",
+          "│  role remove 6 @tag/reply/uid   → Only VIP",
           "│",
           "│  Level: 2🔧 3⚡ 4💎 5🛠️ 6🌟",
           `│  Your role: ${ROLE_NAMES[permssion]} (Lv.${permssion})`
@@ -136,7 +136,7 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
         return api.sendMessage(
           box("⚠️ USAGE", [
             "│",
-            "│  role add all @tag/reply/uid  → সব role",
+            "│  role add all @tag/reply/uid  → All roles",
             "│  role add 2   @tag/reply/uid  → 🔧 Bot Admin",
             "│  role add 3   @tag/reply/uid  → ⚡ Superadmin",
             "│  role add 4   @tag/reply/uid  → 💎 Premium",
@@ -154,7 +154,7 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
 
       const targets = getTargets();
       if (!targets.length) {
-        return api.sendMessage(box("⚠️ ERROR", "│\n│  Tag করো, reply করো, অথবা UID দাও।\n│"), threadID, messageID);
+        return api.sendMessage(box("⚠️ ERROR", "│\n│  Tag someone, reply, or provide a UID.\n│"), threadID, messageID);
       }
 
       const added = [], skipped = [];
@@ -206,12 +206,12 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
         return api.sendMessage(
           box("⚠️ USAGE", [
             "│",
-            "│  role remove all @tag/reply/uid  → সব role সরাও",
-            "│  role remove 2   @tag/reply/uid  → শুধু Bot Admin",
-            "│  role remove 3   @tag/reply/uid  → শুধু Superadmin",
-            "│  role remove 4   @tag/reply/uid  → শুধু Premium",
-            "│  role remove 5   @tag/reply/uid  → শুধু Dev",
-            "│  role remove 6   @tag/reply/uid  → শুধু VIP",
+            "│  role remove all @tag/reply/uid  → Remove all roles",
+            "│  role remove 2   @tag/reply/uid  → Only Bot Admin",
+            "│  role remove 3   @tag/reply/uid  → Only Superadmin",
+            "│  role remove 4   @tag/reply/uid  → Only Premium",
+            "│  role remove 5   @tag/reply/uid  → Only Dev",
+            "│  role remove 6   @tag/reply/uid  → Only VIP",
             "│"
           ].join("\n")),
           threadID, messageID
