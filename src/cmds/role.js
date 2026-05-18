@@ -1,5 +1,4 @@
 const fs = require("fs-extra");
-const path = require("path");
 
 const ROLE_KEYS = {
   2: "ADMINBOT",
@@ -25,12 +24,12 @@ function box(title, body) {
 
 module.exports.config = {
   name: "role",
-  version: "1.0.0",
+  version: "2.0.0",
   hasPermssion: 3,
   credits: "SaGor",
-  description: "Manage user roles (VIP, Dev, Premium, Superadmin, Bot Admin)",
+  description: "Manage user roles — add/remove/list/check",
   commandCategory: "Admin",
-  usages: "role [list | add <level> | remove] @tag/reply/uid",
+  usages: "role [list | add <level/all> | remove <level/all> | check] @tag/reply/uid",
   cooldowns: 3
 };
 
@@ -78,26 +77,33 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
       return 0;
     };
 
-    const sub = (args[0] || "").toLowerCase();
+    const sub  = (args[0] || "").toLowerCase();
+    const arg1 = (args[1] || "").toLowerCase();
 
     if (!sub || sub === "help") {
       return api.sendMessage(
         box("🎭 ROLE MANAGER", [
           "│",
-          "│  role list              → সব role দেখো",
-          "│  role add 2 @tag        → 🔧 Bot Admin",
-          "│  role add 3 @tag        → ⚡ Superadmin",
-          "│  role add 4 @tag        → 💎 Premium",
-          "│  role add 5 @tag        → 🛠️ Dev",
-          "│  role add 6 @tag        → 🌟 VIP",
-          "│  role remove @tag       → Role সরাও",
-          "│  role check @tag        → কারো role দেখো",
+          "│  role list                  → সব role দেখো",
+          "│  role check @tag/reply/uid  → কারো role দেখো",
           "│",
-          "│  Level Chart:",
-          "│  0 👤 User  1 👑 Group Admin",
-          "│  2 🔧 Bot Admin  3 ⚡ Superadmin",
-          "│  4 💎 Premium  5 🛠️ Dev  6 🌟 VIP",
+          "│  ── ADD ──",
+          "│  role add all @tag/reply/uid → সব role দাও",
+          "│  role add 2 @tag/reply/uid   → 🔧 Bot Admin",
+          "│  role add 3 @tag/reply/uid   → ⚡ Superadmin",
+          "│  role add 4 @tag/reply/uid   → 💎 Premium",
+          "│  role add 5 @tag/reply/uid   → 🛠️ Dev",
+          "│  role add 6 @tag/reply/uid   → 🌟 VIP",
           "│",
+          "│  ── REMOVE ──",
+          "│  role remove all @tag/reply/uid → সব role সরাও",
+          "│  role remove 2 @tag/reply/uid   → শুধু Bot Admin",
+          "│  role remove 3 @tag/reply/uid   → শুধু Superadmin",
+          "│  role remove 4 @tag/reply/uid   → শুধু Premium",
+          "│  role remove 5 @tag/reply/uid   → শুধু Dev",
+          "│  role remove 6 @tag/reply/uid   → শুধু VIP",
+          "│",
+          "│  Level: 2🔧 3⚡ 4💎 5🛠️ 6🌟",
           `│  Your role: ${ROLE_NAMES[permssion]} (Lv.${permssion})`
         ].join("\n")),
         threadID, messageID
@@ -109,11 +115,9 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
       for (const [level, key] of Object.entries(ROLE_KEYS).reverse()) {
         const ids = config[key] || [];
         body += `│  ${ROLE_NAMES[level]} (${ids.length})\n`;
-        if (ids.length) {
-          for (const id of ids) {
-            const name = await getName(id);
-            body += `│    ↳ ${name} (${id})\n`;
-          }
+        for (const id of ids) {
+          const name = await getName(id);
+          body += `│    ↳ ${name} (${id})\n`;
         }
         body += "│\n";
       }
@@ -122,55 +126,65 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
 
     if (sub === "add") {
       if (permssion < 3) {
-        return api.sendMessage(box("🔐 DENIED", "│\n│  ⚡ Superadmin+ required to add roles."), threadID, messageID);
+        return api.sendMessage(box("🔐 DENIED", "│\n│  ⚡ Superadmin+ required to add roles.\n│"), threadID, messageID);
       }
 
-      const levelArg = parseInt(args[1]);
-      if (isNaN(levelArg) || levelArg < 2 || levelArg > 6) {
+      const isAll = arg1 === "all";
+      const levelArg = isAll ? null : parseInt(arg1);
+
+      if (!isAll && (isNaN(levelArg) || levelArg < 2 || levelArg > 6)) {
         return api.sendMessage(
           box("⚠️ USAGE", [
             "│",
-            "│  role add <level> @tag/reply/uid",
-            "│",
-            "│  Levels:",
-            "│  2 = 🔧 Bot Admin",
-            "│  3 = ⚡ Superadmin",
-            "│  4 = 💎 Premium",
-            "│  5 = 🛠️ Dev",
-            "│  6 = 🌟 VIP"
+            "│  role add all @tag/reply/uid  → সব role",
+            "│  role add 2   @tag/reply/uid  → 🔧 Bot Admin",
+            "│  role add 3   @tag/reply/uid  → ⚡ Superadmin",
+            "│  role add 4   @tag/reply/uid  → 💎 Premium",
+            "│  role add 5   @tag/reply/uid  → 🛠️ Dev",
+            "│  role add 6   @tag/reply/uid  → 🌟 VIP",
+            "│"
           ].join("\n")),
           threadID, messageID
         );
       }
 
-      if (levelArg >= 5 && permssion < 5) {
-        return api.sendMessage(box("🔐 DENIED", "│\n│  🛠️ Dev+ required to assign Dev/VIP roles."), threadID, messageID);
+      if ((isAll || levelArg >= 5) && permssion < 5) {
+        return api.sendMessage(box("🔐 DENIED", "│\n│  🛠️ Dev+ required to assign Dev/VIP/All roles.\n│"), threadID, messageID);
       }
 
       const targets = getTargets();
       if (!targets.length) {
-        return api.sendMessage(box("⚠️ ERROR", "│\n│  Tag someone, reply, or provide a UID."), threadID, messageID);
+        return api.sendMessage(box("⚠️ ERROR", "│\n│  Tag করো, reply করো, অথবা UID দাও।\n│"), threadID, messageID);
       }
 
-      const targetKey = ROLE_KEYS[levelArg];
       const added = [], skipped = [];
 
       for (const id of targets) {
-        const currentLevel = getUserRole(id);
-        if (currentLevel >= levelArg) {
-          const name = await getName(id);
-          skipped.push(`${name} already at ${ROLE_NAMES[currentLevel]}`);
-          continue;
-        }
-        if (!config[targetKey].includes(id)) config[targetKey].push(id);
         const name = await getName(id);
-        added.push(`${ROLE_NAMES[levelArg]} → ${name} (${id})`);
+
+        if (isAll) {
+          let anyAdded = false;
+          for (const [lvl, key] of Object.entries(ROLE_KEYS)) {
+            if (!config[key].includes(id)) { config[key].push(id); anyAdded = true; }
+          }
+          if (anyAdded) added.push(`All roles → ${name} (${id})`);
+          else skipped.push(`${name} already has all roles`);
+        } else {
+          const currentLevel = getUserRole(id);
+          if (currentLevel >= levelArg) {
+            skipped.push(`${name} already at ${ROLE_NAMES[currentLevel]}`);
+            continue;
+          }
+          const targetKey = ROLE_KEYS[levelArg];
+          if (!config[targetKey].includes(id)) config[targetKey].push(id);
+          added.push(`${ROLE_NAMES[levelArg]} → ${name} (${id})`);
+        }
       }
 
       saveConfig();
 
       let body = "│\n";
-      if (added.length) body += `│  ✅ Added:\n${added.map(l => `│    • ${l}`).join("\n")}\n│\n`;
+      if (added.length)   body += `│  ✅ Added:\n${added.map(l => `│    • ${l}`).join("\n")}\n│\n`;
       if (skipped.length) body += `│  ⚠️ Skipped:\n${skipped.map(l => `│    • ${l}`).join("\n")}\n│\n`;
       if (!added.length && !skipped.length) body += "│  No changes made.\n│\n";
 
@@ -179,11 +193,12 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
 
     if (sub === "remove" || sub === "rm") {
       if (permssion < 3) {
-        return api.sendMessage(box("🔐 DENIED", "│\n│  ⚡ Superadmin+ required to remove roles."), threadID, messageID);
+        return api.sendMessage(box("🔐 DENIED", "│\n│  ⚡ Superadmin+ required to remove roles.\n│"), threadID, messageID);
       }
 
-      const levelArg = parseInt(args[1]);
-      const hasSpecificLevel = !isNaN(levelArg) && levelArg >= 2 && levelArg <= 6;
+      const isAll = arg1 === "all";
+      const levelArg = isAll ? null : parseInt(arg1);
+      const hasSpecificLevel = !isAll && !isNaN(levelArg) && levelArg >= 2 && levelArg <= 6;
       const specificKey = hasSpecificLevel ? ROLE_KEYS[levelArg] : null;
 
       const targets = getTargets();
@@ -191,12 +206,12 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
         return api.sendMessage(
           box("⚠️ USAGE", [
             "│",
-            "│  role remove @tag/reply      → সব role সরাও",
-            "│  role remove 2 @tag/reply    → শুধু Bot Admin সরাও",
-            "│  role remove 3 @tag/reply    → শুধু Superadmin সরাও",
-            "│  role remove 4 @tag/reply    → শুধু Premium সরাও",
-            "│  role remove 5 @tag/reply    → শুধু Dev সরাও",
-            "│  role remove 6 @tag/reply    → শুধু VIP সরাও",
+            "│  role remove all @tag/reply/uid  → সব role সরাও",
+            "│  role remove 2   @tag/reply/uid  → শুধু Bot Admin",
+            "│  role remove 3   @tag/reply/uid  → শুধু Superadmin",
+            "│  role remove 4   @tag/reply/uid  → শুধু Premium",
+            "│  role remove 5   @tag/reply/uid  → শুধু Dev",
+            "│  role remove 6   @tag/reply/uid  → শুধু VIP",
             "│"
           ].join("\n")),
           threadID, messageID
@@ -209,7 +224,19 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
         const currentLevel = getUserRole(id);
         const name = await getName(id);
 
-        if (hasSpecificLevel) {
+        if (isAll || !hasSpecificLevel) {
+          if (currentLevel === 0) { skipped.push(`${name} has no role`); continue; }
+          if (currentLevel >= 5 && permssion < 5) {
+            skipped.push(`${name} is ${ROLE_NAMES[currentLevel]} — need 🛠️ Dev+ to remove`);
+            continue;
+          }
+          let wasRemoved = false;
+          for (const key of Object.values(ROLE_KEYS)) {
+            const idx = config[key].indexOf(id);
+            if (idx !== -1) { config[key].splice(idx, 1); wasRemoved = true; }
+          }
+          if (wasRemoved) removed.push(`All roles removed → ${name} (${id}) → 👤 User`);
+        } else {
           if (!config[specificKey] || !config[specificKey].includes(id)) {
             skipped.push(`${name} is not ${ROLE_NAMES[levelArg]}`);
             continue;
@@ -221,31 +248,14 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
           const idx = config[specificKey].indexOf(id);
           if (idx !== -1) config[specificKey].splice(idx, 1);
           removed.push(`${ROLE_NAMES[levelArg]} removed → ${name} (${id})`);
-        } else {
-          if (currentLevel === 0) {
-            skipped.push(`${name} has no role`);
-            continue;
-          }
-          if (currentLevel >= 5 && permssion < 5) {
-            skipped.push(`${name} is ${ROLE_NAMES[currentLevel]} — need 🛠️ Dev+ to remove`);
-            continue;
-          }
-          let wasRemoved = false;
-          for (const key of Object.values(ROLE_KEYS)) {
-            const idx = config[key].indexOf(id);
-            if (idx !== -1) { config[key].splice(idx, 1); wasRemoved = true; }
-          }
-          if (wasRemoved) {
-            removed.push(`All roles removed → ${name} (${id}) → 👤 User`);
-          }
         }
       }
 
       saveConfig();
 
       let body = "│\n";
-      if (removed.length) body += `│  ✅ Removed:\n${removed.map(l => `│    • ${l}`).join("\n")}\n│\n`;
-      if (skipped.length) body += `│  ⚠️ Skipped:\n${skipped.map(l => `│    • ${l}`).join("\n")}\n│\n`;
+      if (removed.length)  body += `│  ✅ Removed:\n${removed.map(l => `│    • ${l}`).join("\n")}\n│\n`;
+      if (skipped.length)  body += `│  ⚠️ Skipped:\n${skipped.map(l => `│    • ${l}`).join("\n")}\n│\n`;
       if (!removed.length && !skipped.length) body += "│  No changes made.\n│\n";
 
       return api.sendMessage(box("❌ ROLE REMOVED", body.trimEnd()), threadID, messageID);
@@ -254,8 +264,8 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
     if (sub === "check") {
       const targets = getTargets();
       const checkID = targets[0] || String(senderID);
-      const level = getUserRole(checkID);
-      const name = await getName(checkID);
+      const level   = getUserRole(checkID);
+      const name    = await getName(checkID);
       return api.sendMessage(
         box("🔍 ROLE CHECK", [
           "│",
@@ -270,7 +280,7 @@ module.exports.run = async function ({ api, event, args, Users, permssion }) {
     }
 
     return api.sendMessage(
-      box("⚠️ UNKNOWN", "│\n│  Type: role help\n│  to see all commands."),
+      box("⚠️ UNKNOWN", "│\n│  Type: .role help\n│  to see all commands.\n│"),
       threadID, messageID
     );
 
