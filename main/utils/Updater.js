@@ -1,7 +1,7 @@
 const axios = require("axios");
 const { getVersion, compare } = require("./Version");
 
-const MAIN_REPO = "JAHIDUL-ISLAM-SAGOR-0/sagor-bot";
+const MAIN_REPO = "SAGOR-OFFICIAL-09/PROJECT-5";
 const BRANCH = "main";
 
 function isValidRepo(repo) {
