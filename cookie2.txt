@@ -1,1 +1,20 @@
-
+[
+	{
+		"key": "# Backup Account #2 - Paste your second Facebook account credentials here\n# This account will be used if cookie2.txt fails (suspended, locked, etc.)\n#\n# Format options:\n# 1. Cookies (JSON format): [{\"key\":\"c_user\",\"value\":\"123456\",\"domain\":\"facebook.com\"}]\n# 2. Cookies (string format): c_user",
+		"value": "123456",
+		"domain": ".facebook.com",
+		"path": "/",
+		"hostOnly": false,
+		"creation": "2026-05-11T14:24:11.213Z",
+		"lastAccessed": "2026-05-11T14:24:11.213Z"
+	},
+	{
+		"key": "xs",
+		"value": "abc123\n# 3. Token: EAAAA...\n# 4. Email/Password: email@example.com|password|2FACode\n# 5. Netscape cookies format\n#\n# Delete this comment and paste your credentials below:",
+		"domain": ".facebook.com",
+		"path": "/",
+		"hostOnly": false,
+		"creation": "2026-05-11T14:24:11.213Z",
+		"lastAccessed": "2026-05-11T14:24:11.213Z"
+	}
+]
