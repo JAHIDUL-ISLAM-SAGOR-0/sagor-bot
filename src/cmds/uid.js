@@ -1,7 +1,13 @@
 const fs = require("fs-extra");
 const path = require("path");
 const axios = require("axios");
-const { createCanvas, loadImage, registerFont } = require("canvas");
+
+let createCanvas, loadImage;
+try {
+  const canvasMod = require("canvas");
+  createCanvas = canvasMod.createCanvas;
+  loadImage = canvasMod.loadImage;
+} catch (_) {}
 
 module.exports.config = {
   name: "uid",
@@ -16,6 +22,14 @@ module.exports.config = {
 
 module.exports.run = async function ({ api, event, args, Users }) {
   const { threadID, messageID, senderID, messageReply, mentions } = event;
+
+  if (!createCanvas || !loadImage) {
+    return api.sendMessage(
+      `❌ UID command unavailable: canvas library not installed on this system.\n🔎 Your UID: ${senderID}`,
+      threadID, messageID
+    );
+  }
+
   const cachePath = path.join(__dirname, "cache", "uid_card.png");
 
   let targetID = senderID;

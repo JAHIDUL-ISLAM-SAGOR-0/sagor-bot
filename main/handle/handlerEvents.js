@@ -15,11 +15,11 @@ function handleCommand({ api, models, Users, Threads, Currencies }) {
       const { userBanned, threadBanned, threadInfo, threadData, commandBanned } = global.data;
       const { commands, cooldowns } = global.client;
       var { body, senderID, threadID, messageID } = event;
-      if (!body) return;
-      senderID = String(senderID);
-      threadID = String(threadID);
+      senderID = String(senderID || "");
+      threadID = String(threadID || "");
       const isSingleUser = senderID === threadID;
       const isGroup = event.isGroup === true || (threadID !== senderID && threadID.length > 10);
+      if (!body) return;
 
       const threadSetting = threadData.get(threadID) || {};
       const prefixRegex = new RegExp(
@@ -51,7 +51,7 @@ function handleCommand({ api, models, Users, Threads, Currencies }) {
         !ADMINBOT.includes(senderID) &&
         !findd &&
         event.isGroup == true
-      ) return api.sendMessage(
+      ) return await api.sendMessage(
         'Admin Only: Only admins can use the bot in this group.',
         event.threadID, event.messageID
       );
@@ -172,9 +172,9 @@ function handleCommand({ api, models, Users, Threads, Currencies }) {
       const prefix = threadSetting.hasOwnProperty("PREFIX") ? threadSetting.PREFIX : PREFIX;
 
       if (!commandName && body.trim() === prefix)
-        return api.sendMessage(global.getText("handleCommand", "noprefix"), threadID, messageID);
+        return await api.sendMessage(global.getText("handleCommand", "noprefix"), threadID, messageID);
       if (!commandName && body.startsWith(prefix))
-        return api.sendMessage(global.getText("handleCommand", "onlyprefix"), threadID, messageID);
+        return await api.sendMessage(global.getText("handleCommand", "onlyprefix"), threadID, messageID);
 
       let command = commands.get(commandName);
       if (!command) {
@@ -206,13 +206,13 @@ function handleCommand({ api, models, Users, Threads, Currencies }) {
               const suggestions = topMatches.length > 1
                 ? topMatches.map((s, i) => `${i + 1}. ${prefix}${s}`).join('\n')
                 : `${prefix}${checker.bestMatch.target}`;
-              return api.sendMessage(
+              return await api.sendMessage(
                 `Command "${commandName}" not found.\n\nDid you mean?\n${suggestions}\n\nSee all commands: ${prefix}help`,
                 threadID, messageID
               );
             }
           } catch (_) {}
-          return api.sendMessage(
+          return await api.sendMessage(
             `Command "${commandName}" does not exist.\nSee all commands: ${prefix}help\nSearch: ${prefix}cmds <keyword>`,
             threadID, messageID
           );
@@ -275,7 +275,7 @@ function handleCommand({ api, models, Users, Threads, Currencies }) {
           5: 'Dev',
           6: 'VIP User'
         };
-        return api.sendMessage(
+        return await api.sendMessage(
           `Permission denied. You cannot use "${command.config.name}".\nRequired: ${roleNames[needed] || 'Higher Permission'}`,
           event.threadID, event.messageID
         );
@@ -287,7 +287,7 @@ function handleCommand({ api, models, Users, Threads, Currencies }) {
 
       if (timestamps.has(senderID) && dateNow < timestamps.get(senderID) + expirationTime) {
         const remaining = ((timestamps.get(senderID) + expirationTime - dateNow) / 1000).toFixed(1);
-        return api.sendMessage(
+        return await api.sendMessage(
           `Please wait ${remaining}s before using "${command.config.name}" again.`,
           threadID, messageID
         );
@@ -332,7 +332,7 @@ function handleCommand({ api, models, Users, Threads, Currencies }) {
           `${"─".repeat(60)}\n`
         );
         logger(`Command "${commandName}" error: ${errMsg}`, 'error');
-        return api.sendMessage(
+        return await api.sendMessage(
           `❌ Command "${commandName}" error:\n${errMsg.slice(0, 150)}\n\nCheck console for full details.`,
           threadID
         );
