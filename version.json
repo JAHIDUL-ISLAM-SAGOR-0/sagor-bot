@@ -4,8 +4,6 @@
   "releasedAt": "2026-05-16",
   "forceUpdate": false,
   "changelog": [
-    "Auto-update system stabilized",
-    "Version mismatch fixed",
-    "handleReply crash bugs fixed"
+    "Auto-update system stabilized"
   ]
 }
