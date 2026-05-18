@@ -70,7 +70,7 @@ module.exports.run = async function ({ api, event, args }) {
 `│ Name: ${cfg.name}
 │ Version: ${cfg.version}
 │ Author: ${cfg.credits}
-│ Permission: ${cfg.hasPermssion}
+│ Permission: ${({"0":"👤 User","1":"👑 Group Admin","2":"🔧 Bot Admin","3":"⚡ Superadmin","4":"💎 Premium","5":"🛠️ Dev","6":"🌟 VIP"})[String(cfg.hasPermssion)] || "👤 User"} (Lv.${cfg.hasPermssion || 0})
 │ Cooldown: ${cfg.cooldowns}
 │ Category: ${cfg.commandCategory}`
       ), threadID, messageID);

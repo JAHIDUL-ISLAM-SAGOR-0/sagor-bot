@@ -268,15 +268,22 @@ function handleCommand({ api, models, Users, Threads, Currencies }) {
       if ((command.config.hasPermssion || 0) > permssion) {
         const needed = command.config.hasPermssion;
         const roleNames = {
-          1: 'Group Admin',
-          2: 'Bot Admin',
-          3: 'Superadmin',
-          4: 'Premium User',
-          5: 'Dev',
-          6: 'VIP User'
+          0: '👤 User',
+          1: '👑 Group Admin',
+          2: '🔧 Bot Admin',
+          3: '⚡ Superadmin',
+          4: '💎 Premium',
+          5: '🛠️ Dev',
+          6: '🌟 VIP'
         };
+        const yourRole = roleNames[permssion] || '👤 User';
+        const needRole = roleNames[needed] || '🔒 Higher Permission';
         return await api.sendMessage(
-          `Permission denied. You cannot use "${command.config.name}".\nRequired: ${roleNames[needed] || 'Higher Permission'}`,
+          `🚫 Permission Denied!\n\n` +
+          `📌 Command : ${command.config.name}\n` +
+          `🔓 Required : ${needRole} (Level ${needed})\n` +
+          `👤 Your Level : ${yourRole} (Level ${permssion})\n\n` +
+          `You don't have permission to use this command.`,
           event.threadID, event.messageID
         );
       }

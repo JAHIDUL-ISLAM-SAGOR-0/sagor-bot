@@ -1,24 +1,24 @@
 module.exports.config = {
-	name: "nameCommand",
-	version: "version",
-	hasPermssion: 0/1/2,
-	credits: "SaGor",
-	description: "say bla bla ở đây",
-	commandCategory: "group",
-	usages: "[option] [text]",
-	cooldowns: 5,
-	dependencies: {
-		"packageName": "version"
-	},
-	envConfig: {
-	}
+        name: "nameCommand",
+        version: "version",
+        hasPermssion: 0,
+        credits: "SaGor",
+        description: "say bla bla ở đây",
+        commandCategory: "group",
+        usages: "[option] [text]",
+        cooldowns: 5,
+        dependencies: {
+                "packageName": "version"
+        },
+        envConfig: {
+        }
 };
 
 module.exports.languages = {
-	"vi": {
-	},
-	"en": {
-	}
+        "vi": {
+        },
+        "en": {
+        }
 }
 
 module.exports.onLoad = function ({ configValue }) {
